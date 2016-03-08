@@ -1,10 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+    <h1 class="page-title">Browse Users</h1>
+
+    <div class="row headers">
+      <div class="col s6">User</div>
+      <div class="col s6">Follow/Unfollow</div>
+    </div>
+
     {% for user in object_list %}
-        <p><a href="{% url 'user_post_list' user.user.pk %}">{{ user.user }}</a> {{ user.age }}</p>
-        {% if user.user.username not in followed %}
-        <a href="{% url 'follow_user' user.user.pk %}">Follow</a>
-        {% endif %}
+        <div class="row">
+            <div class="col s6">
+                <a href="{% url 'user_post_list' user.user.pk %}">{{ user.user }}</a>
+            </div>
+            <div class="col s6">
+                {% if user.user.username not in followed %}
+                    <a href="{% url 'follow_user' user.user.pk %}">Follow</a>
+                {% else %}
+                    <a href="{% url 'unfollow_user' user.user.pk %}">Un-Follow</a>
+                {% endif %}
+            </div>
+        </div>
+
     {% endfor %}
 {% endblock %}

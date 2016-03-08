@@ -1,0 +1,12 @@
+.page-title {
+    text-align: center;
+}
+
+.headers {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.row, .row > .col {
+    text-align: center;
+}

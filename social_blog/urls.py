@@ -19,18 +19,19 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 
 from blog_app.views import Home, SignUpView, UserListView, BlogCreateView, BlogListView, \
-    MyPostsView, MyFollowingListView, follow_user
+    MyPostsView, MyFollowingListView, PostDetailView, follow_user, unfollow_user
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', Home.as_view(), name='home_view'),
     url(r'^login/', auth_views.login, name='login_view'),
     url(r'^logout/', auth_views.logout_then_login, name='logout_view'),
     url(r'^sign_up/', SignUpView.as_view(), name='sign_up_view'),
-    url(r'^users/$', UserListView.as_view(), name='user_list_view'),
+    url(r'^$', login_required(UserListView.as_view()), name='user_list_view'),
     url(r'^new_post/$', login_required(BlogCreateView.as_view()), name='new_post'),
     url(r'^my_posts/$', login_required(MyPostsView.as_view()), name='my_posts'),
+    url(r'^post_details/(?P<pk>\d+)$', login_required(PostDetailView.as_view()), name='post_details'),
     url(r'^user/(?P<pk>\d+)/posts/$', login_required(BlogListView.as_view()), name='user_post_list'),
-    url(r'^follow/(?P<user_id>\d+)$', follow_user, name='follow_user'),
+    url(r'^follow/(?P<user_id>\d+)$', login_required(follow_user), name='follow_user'),
+    url(r'^unfollow/(?P<user_id>\d+)$', unfollow_user, name='unfollow_user'),
     url(r'^my_following/$', login_required(MyFollowingListView.as_view()), name='my_following_view')
 ]

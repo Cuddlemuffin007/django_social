@@ -1,27 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Index HTML</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
-</head>
+{% extends 'base.html' %}
 
-<body>
-  <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Logo</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="{% url 'login_view' %}">Login</a></li>
-        <li><a href="{% url 'logout_view' %}">Logout</a></li>
-        <li><a href="{% url 'user_list_view' %}">User Content</a></li>
-        <li><a href="{% url 'new_post' %}">Create a Post</a></li>
-      </ul>
-    </div>
-  </nav>
-Hello
-{% block content %}
+{% block index_content %}
+    <p>Please login</p>
+    <p>or</p>
+    <p>Create an account</p>
+
 {% endblock %}
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
-</body>
-</html>

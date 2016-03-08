@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import TemplateView, CreateView, ListView
+from django.views.generic import TemplateView, CreateView, ListView, DetailView
 
 from blog_app.models import UserProfile, Blog, Follower
 
@@ -14,7 +14,7 @@ class AppUserCreationForm(UserCreationForm):
 
 
 class Home(TemplateView):
-    template_name = 'index.html'
+    template_name = 'blog_app/post_list.html'
 
 
 class SignUpView(CreateView):
@@ -61,7 +61,7 @@ class BlogCreateView(CreateView):
 
 class MyPostsView(ListView):
     model = Blog
-    template_name = 'blog_app/my_post_list.html'
+    template_name = 'blog_app/post_list.html'
 
     def get_queryset(self):
         return Blog.objects.filter(user=self.request.user)
@@ -69,10 +69,14 @@ class MyPostsView(ListView):
 
 class BlogListView(ListView):
     model = Blog
-    template_name = 'blog_app/user_blog_list.html'
+    template_name = 'blog_app/post_list.html'
 
     def get_queryset(self):
         return Blog.objects.filter(user=self.kwargs['pk'])
+
+
+class PostDetailView(DetailView):
+    model = Blog
 
 
 class MyFollowingListView(ListView):
@@ -98,6 +102,14 @@ def follow_user(request, user_id):
     current_user = UserProfile.objects.get(user=request.user)
     if not current_user.followers.filter(follower_name=user_to_follow.user).exists():
         current_user.followers.add(Follower.objects.create(follower_name=user_to_follow.user))
+
+    return HttpResponseRedirect('/my_posts')
+
+def unfollow_user(request, user_id):
+    follower_name = UserProfile.objects.get(user=user_id).user
+    user_to_unfollow = Follower.objects.filter(follower_name=follower_name)[0]
+    UserProfile.objects.get(user=request.user).followers.remove(user_to_unfollow)
+
 
     return HttpResponseRedirect('/my_posts')
 

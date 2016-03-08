@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="row headers">
+        <div class="col s6">Blog Title</div>
+        <div class="col s6">Date Posted</div>
+    </div>
+    {% for blog in object_list %}
+    <div class="row">
+        <div class="col s6"><a href="{% url 'post_details' blog.pk %}">{{ blog.title }}</a></div>
+        <div class="col s6">{{ blog.created }}</div>
+    </div>
+    {% endfor %}
+{% endblock %}
