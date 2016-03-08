@@ -37,6 +37,14 @@ class UserListView(ListView):
     def get_queryset(self):
         return UserProfile.objects.exclude(user=self.request.user)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        current_user = UserProfile.objects.get(user=self.request.user)
+        followed = current_user.followers.all()
+        context['followed'] = [follower.follower_name for follower in followed]
+
+        return context
+
 
 class BlogCreateView(CreateView):
     model = Blog
@@ -71,9 +79,6 @@ class MyFollowingListView(ListView):
     model = UserProfile
     template_name = 'blog_app/my_following_list.html'
 
-    def get_queryset(self):
-        current_user = UserProfile.objects.get(user=self.request.user)
-        return current_user.followers.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
