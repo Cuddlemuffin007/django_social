@@ -80,7 +80,7 @@ class MyFollowingListView(ListView):
         current_user = UserProfile.objects.get(user=self.request.user)
         current_user_following = current_user.followers.all()
         user_profile_dict = {
-            following: UserProfile.objects.get(user=User.objects.get(username=following.follower_name))
+            following: UserProfile.objects.get(user__username=following.follower_name)
             for following in current_user_following
         }
         context['user_profiles'] = user_profile_dict
