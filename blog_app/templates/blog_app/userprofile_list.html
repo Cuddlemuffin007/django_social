@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for user in object_list %}
+        <p><a href="{% url 'user_post_list' user.user.pk %}">{{ user.user }}</a> {{ user.age }}</p>
+        <a href="{% url 'follow_user' user.user.pk %}" >Follow</a>
+    {% endfor %}
+{% endblock %}

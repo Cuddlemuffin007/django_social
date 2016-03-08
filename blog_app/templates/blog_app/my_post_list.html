@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for blog in object_list %}
+        <p>{{ blog.body }}</p>
+        <p>{{ blog.created }}</p>
+    {% endfor %}
+{% endblock %}
